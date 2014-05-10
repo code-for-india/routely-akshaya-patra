@@ -6,15 +6,9 @@ from Clustering import  *
 import ast
 import uuid
 
-center_1_latlng = {}
-center_1_latlng['lat'] = 13.001658
-center_1_latlng['lng'] = 77.551099
-
-center_2_latlng = {}
-center_2_latlng['lat'] = 12.9261416
-center_2_latlng['lng'] = 77.5975514
-
 center_latlng = [{'lat' : 13.001658, 'lng' : 77.551099}, {'lat' : 12.9261416, 'lng' : 77.5975514}]
+
+
 class XlxsToMapsWrapper:
     LAT_LOG_FILE_NAME = './akshaya-patra-data/lon and log details-xls.xlsx'
     def __init__(self):
