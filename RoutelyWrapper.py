@@ -114,8 +114,8 @@ def main():
 
     # Compute the cost of all Schools from all centers for clustering
     get_and_store_cost = GetAndStoreCost()
-    #get_and_store_cost.compute_costs()
-    get_and_store_cost.compute_costs_thread_pool()
+    get_and_store_cost.compute_costs()
+    #get_and_store_cost.compute_costs_thread_pool()
 
     return
 
