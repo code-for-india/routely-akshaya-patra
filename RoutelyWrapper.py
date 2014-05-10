@@ -31,6 +31,7 @@ class GetAndStoreCost:
         pass
 
     def compute_costs(self):
+        fh = open('cost.output')
         #TODO:nikhil - Add the 2nd center path lenghts
         all_rows_list = self.lat_lng_db.get_all()
         #print all_rows_list[0:4]
@@ -52,15 +53,16 @@ class GetAndStoreCost:
                             cost['origin'] = center
                             cost['_id'] = _id
                             self.lat_lng_cost_db.add_to_db(cost)
+                            fh.write(str(cost))
+
                             print cost
                     except:
                         print 'Got screwed!'
                     #print 'res_count_none', res_count_none, 'res count not done', res_count_not_none
-
                     if count == 10:
                         break
                     count += 1
-
+            fh.close()
             print 'res_count_none', res_count_none, 'res count not done', res_count_not_none
 
     def compute_costs_thread_pool(self):

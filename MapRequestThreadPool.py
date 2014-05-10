@@ -127,6 +127,7 @@ class MapRequestThreadClass (threading.Thread):
             return res_dict
         else:
             return None
+        
 
     def set_quit(self):
         self.die = True
