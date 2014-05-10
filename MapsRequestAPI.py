@@ -16,8 +16,9 @@ def get_cost(origin_coor, dest_coor):
     res_dict['time'] = driving_time
     return res_dict
 
-def test():
+def test_get_cost():
     orig_coord = 13.1152648, 77.5774666
     dest_coord = 12.924574, 77.670285
     result = get_cost(orig_coord, dest_coord)
     print result
+
