@@ -66,6 +66,44 @@ class GetAndStoreCost:
     def compute_costs_thread_pool(self):
         all_rows_list = self.lat_lng_db.get_all()
         map_request_thread_pool = MapRequestThreadPool(20)
+        map_request_thread_pool.create_threads()
+
+        count = 0
+        # Adding tasks to thread pool
+        for center in center_latlng:
+            for row in all_rows_list:
+                # try:
+                _id = row[u'_id']
+                if u'log' in row and u'lon' in row:
+                    lng = row[u'log']
+                    lat = row[u'lon']
+                    dest_coor = {}
+                    data_dictionary = {}
+                    try:
+                        dest_coor['lat'] = float(lat)
+                        dest_coor['lng'] = float(lng)
+                    except:
+                        print "Got screwed"
+                    data_dictionary['dest'] = dest_coor
+                    data_dictionary['origin'] = center
+                    data_dictionary['_id'] = _id
+                    map_request_thread_pool.add_to_queue(data_dictionary)
+                    # except:
+                #print 'Got screwed!'
+            count +=1
+            if count == 20:
+                break
+
+        # Wait for all threads to terminate
+        map_request_thread_pool.join_all(wait_for_tasks=True)
+        result = map_request_thread_pool.result_queue
+
+        count = 0
+        for res in result:
+            print res
+            if count == 5:
+                break
+            count += 1
         return
 
 
@@ -76,7 +114,8 @@ def main():
 
     # Compute the cost of all Schools from all centers for clustering
     get_and_store_cost = GetAndStoreCost()
-    get_and_store_cost.compute_costs()
+    #get_and_store_cost.compute_costs()
+    get_and_store_cost.compute_costs_thread_pool()
 
     return
 
