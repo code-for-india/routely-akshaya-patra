@@ -66,7 +66,7 @@ class MapRequestThreadPool:
         self.queue_access_lock.release()
         return tmp
 
-    def get_total_image_count(self):
+    def get_total_input_count(self):
         return self.input_count
 
     def join_all(self, wait_for_tasks=True):
@@ -100,7 +100,8 @@ class MapRequestThreadClass (threading.Thread):
                 # execute the job
                 # job is basically a Data dictionary which was pushed in the taskqueue
                 result_dict = self.get_cost_from_coor(job['origin'],job['dest'])
-                self.parent_pool.add_to_result_queue(result_dict)
+                job.update(result_dict)
+                self.parent_pool.add_to_result_queue(job)
 
 
     def get_cost_from_coor(self, origin_coor, dest_coor):
