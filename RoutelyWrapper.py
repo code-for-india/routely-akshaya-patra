@@ -31,18 +31,20 @@ class GetAndStoreCost:
         res_count_none = 0
         res_count_not_none  = 0
         for row in all_rows_list:
-            if u'log' in row and u'lon' in row:
-                lng = row[u'log']
-                lat = row[u'lon']
-                dest_coor = {}
-                dest_coor['lat'] = float(lat)
-                dest_coor['lng'] = float(lng)
-                cost = self.maps_request_api.get_cost_from_coor(origin_coor=center_1_latlng, dest_coor=dest_coor)
-                if cost == None:
-                    res_count_none += 1
-                else:
-                    print cost
-                    res_count_not_none +=1
+            try:
+                _id = row[u'_id']
+                if u'log' in row and u'lon' in row:
+                    lng = row[u'log']
+                    lat = row[u'lon']
+                    dest_coor = {}
+                    dest_coor['lat'] = float(lat)
+                    dest_coor['lng'] = float(lng)
+                    cost = self.maps_request_api.get_cost_from_coor(origin_coor=center_1_latlng, dest_coor=dest_coor)
+                    cost.update(dest_coor)
+                    cost['_id'] = _id
+                    self.lat_lng_cost_db.add_to_db(cost)
+            except:
+                print 'Got screwed!'
             print 'res_count_none', res_count_none, 'res count not done', res_count_not_none
             if count == 1:
                 break
