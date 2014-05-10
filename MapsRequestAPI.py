@@ -26,8 +26,8 @@ class MapsAPI:
 
         print result
         if 'duration' in result['rows'][0]['elements'][0]:
-            driving_time = result['rows'][0]['elements'][0]['duration']['value']*60 # in sec
-            driving_distance = result['rows'][0]['elements'][0]['distance']['value']*1000 # in m
+            driving_time = result['rows'][0]['elements'][0]['duration']['value'] # in sec
+            driving_distance = result['rows'][0]['elements'][0]['distance']['value'] # in m
             res_dict = {}
             res_dict['distance'] = driving_distance
             res_dict['time'] = driving_time

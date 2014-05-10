@@ -2,6 +2,7 @@ from MapsRequestAPI import  *
 from DBStuffAPI import *
 from XlsxReader import *
 from MapRequestThreadPool import MapRequestThreadPool
+from Clustering import  *
 import ast
 import uuid
 
@@ -141,6 +142,10 @@ def main():
     get_and_store_cost.compute_cost_based_on_saved_text_file()
     #get_and_store_cost.compute_costs()
     #get_and_store_cost.compute_costs_thread_pool()
+
+    # Identify the high level clusters
+    clustering = Clustering()
+    clustering.high_level_clustering()
 
     return
 
