@@ -73,6 +73,9 @@ class GetAndStoreCost:
         fh.close()
         print 'res_count_correct',res_count_correct, 'res count not done', res_count_incorrect
 
+    def compute_cost_based_on_text(self):
+        fh = open(cost.output','w'))
+
     def compute_costs_thread_pool(self):
         all_rows_list = self.lat_lng_db.get_all()
         map_request_thread_pool = MapRequestThreadPool(20)
