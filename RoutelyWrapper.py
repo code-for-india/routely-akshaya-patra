@@ -2,6 +2,8 @@ from MapsRequestAPI import  *
 from DBStuffAPI import *
 from XlsxReader import *
 from MapRequestThreadPool import MapRequestThreadPool
+import ast
+import uuid
 
 center_1_latlng = {}
 center_1_latlng['lat'] = 13.001658
@@ -56,7 +58,7 @@ class GetAndStoreCost:
                         cost['_id'] = str(_id)+str(center_count)
                         self.lat_lng_cost_db.add_to_db(cost)
                         fh.write(str(cost)+'\n')
-                        print cost
+                        #print cost
                         import time
                         time.sleep(.25)
                         res_count_correct += 1
@@ -73,8 +75,17 @@ class GetAndStoreCost:
         fh.close()
         print 'res_count_correct',res_count_correct, 'res count not done', res_count_incorrect
 
-    def compute_cost_based_on_text(self):
-        fh = open(cost.output','w'))
+    def compute_cost_based_on_saved_text_file(self):
+        fh = open('cost.output','Ur')
+        count = 0
+        for line in fh:
+            row_dict = ast.literal_eval(line.rstrip())
+            _id = row_dict['_id']
+            row_dict['_id'] = uuid.uuid4() #adding some count to avoid duplicate key error
+            print row_dict
+            self.lat_lng_cost_db.add_to_db(row_dict)
+            count += 1
+
 
     def compute_costs_thread_pool(self):
         all_rows_list = self.lat_lng_db.get_all()
@@ -127,7 +138,8 @@ def main():
 
     # Compute the cost of all Schools from all centers for clustering
     get_and_store_cost = GetAndStoreCost()
-    get_and_store_cost.compute_costs()
+    get_and_store_cost.compute_cost_based_on_saved_text_file()
+    #get_and_store_cost.compute_costs()
     #get_and_store_cost.compute_costs_thread_pool()
 
     return
