@@ -48,15 +48,36 @@ class MapsAPI:
         return res_dict
 
     def test_get_cost(self):
-        orig_coord = 13.1152648, 77.5774666 #lat, lng
-        dest_coord = 12.924574, 77.670285
-        result = self.get_cost_from_coor(orig_coord, dest_coord)
+        orig_coord = 41.8337329, -87.7321555 #lat, lng
+        dest_coord = 40.4313684, -79.9805005
+        # result = self.get_cost_from_coor(orig_coord, dest_coord)
+        result = self.get_directions_between_source_and_destination(orig_coord, dest_coord)
         print result
 
     def test_get_coor_from_address(self):
         test_address = 'akamai bangalore'
         result = self.get_coor_from_address(test_address)
         print result
+
+    def get_directions_between_source_and_destination(self, origin_coordinates, destination_coordinates):
+        if type(origin_coordinates) is dict:
+            tmp = origin_coordinates['lat'], origin_coordinates['lng']
+            origin_coordinates = tmp
+            tmp = destination_coordinates['lat'], destination_coordinates['lng']
+            destination_coordinates = tmp
+        print destination_coordinates
+        url = "http://maps.googleapis.com/maps/api/directions/json?origin={0}&destination={1}&mode=driving&language=en-EN&sensor=false".format(str(origin_coordinates),str(destination_coordinates))
+
+        result= simplejson.load(urllib.urlopen(url))
+
+        route_points = [[]]
+        for step in result['routes'][0]['legs'][0]['steps']:
+            start_location = [step][0]['start_location']
+            end_location = [step][0]['end_location']
+            location=(start_location,end_location)
+            route_points.append(location)
+            print route_points
+        return None
 
 
 def main():
