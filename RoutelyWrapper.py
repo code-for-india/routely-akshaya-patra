@@ -42,7 +42,7 @@ class GetAndStoreCost:
             for row in all_rows_list:
                     try:
                         _id = row[u'_id']
-                        if u'log' in row and u'lon' in row:
+                        if (u'log' in row) and (u'lon' in row):
                             lng = row[u'log']
                             lat = row[u'lon']
                             dest_coor = {}
@@ -54,12 +54,11 @@ class GetAndStoreCost:
                             cost['_id'] = _id
                             self.lat_lng_cost_db.add_to_db(cost)
                             fh.write(str(cost))
-
                             print cost
                     except:
                         print 'Got screwed!'
                     #print 'res_count_none', res_count_none, 'res count not done', res_count_not_none
-                    if count == 10:
+                    if count == 5:
                         break
                     count += 1
             fh.close()
