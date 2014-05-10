@@ -10,9 +10,12 @@ class LngLatDB:
     def get_data(self, query_dict):
         return list(self.db.lnglat.find(query_dict))
 
+    def get_all(self):
+        return list(self.db.lnglat.find())
+
 class LngLatCostDB:
     def __init__(self):
-        self.db = MongoClient.routely
+        self.db = MongoClient().routely
         pass
 
     def add_to_db(self, row):
