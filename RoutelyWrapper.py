@@ -31,38 +31,47 @@ class GetAndStoreCost:
         pass
 
     def compute_costs(self):
-        fh = open('cost.output')
+        fh = open('cost.output','w')
         #TODO:nikhil - Add the 2nd center path lenghts
         all_rows_list = self.lat_lng_db.get_all()
         #print all_rows_list[0:4]
         count = 0
-        res_count_none = 0
-        res_count_not_none  = 0
+        center_count = 0
+        res_count_correct = 0
+        res_count_incorrect  = 0
         for center in center_latlng:
             for row in all_rows_list:
-                    try:
-                        _id = row[u'_id']
-                        if (u'log' in row) and (u'lon' in row):
-                            lng = row[u'log']
-                            lat = row[u'lon']
-                            dest_coor = {}
-                            dest_coor['lat'] = float(lat)
-                            dest_coor['lng'] = float(lng)
-                            cost = self.maps_request_api.get_cost_from_coor(origin_coor=center, dest_coor=dest_coor)
-                            cost['dest'] = dest_coor
-                            cost['origin'] = center
-                            cost['_id'] = _id
-                            self.lat_lng_cost_db.add_to_db(cost)
-                            fh.write(str(cost))
-                            print cost
-                    except:
+                try:
+                    _id = row[u'_id']
+                    if (u'log' in row) and (u'lon' in row):
+                        lng = row[u'log']
+                        lat = row[u'lon']
+                        dest_coor = {}
+                        dest_coor['lat'] = float(lat)
+                        dest_coor['lng'] = float(lng)
+                        cost = self.maps_request_api.get_cost_from_coor(origin_coor=center, dest_coor=dest_coor)
+                        cost['dest'] = dest_coor
+                        cost['origin'] = center
+                        #cost['_id'] = _id
+                        cost['_id'] = str(_id)+str(center_count)
+                        self.lat_lng_cost_db.add_to_db(cost)
+                        fh.write(str(cost)+'\n')
+                        print cost
+                        import time
+                        time.sleep(.25)
+                        res_count_correct += 1
+                except:
                         print 'Got screwed!'
-                    #print 'res_count_none', res_count_none, 'res count not done', res_count_not_none
-                    if count == 5:
-                        break
-                    count += 1
-            fh.close()
-            print 'res_count_none', res_count_none, 'res count not done', res_count_not_none
+                        res_count_incorrect += 1
+                print count
+                count += 1
+                #print 'res_count_none', res_count_none, 'res count not done', res_count_not_none
+                # if count == 5:
+                #     break
+                # count += 1
+            center_count += 1
+        fh.close()
+        print 'res_count_correct',res_count_correct, 'res count not done', res_count_incorrect
 
     def compute_costs_thread_pool(self):
         all_rows_list = self.lat_lng_db.get_all()
