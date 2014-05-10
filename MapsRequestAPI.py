@@ -10,6 +10,12 @@ class MapsAPI:
 
     # coordinates should be dicationary with 'lat' and 'lng' as keys
     def get_cost_from_coor(self, origin_coor, dest_coor):
+        if type(origin_coor) is dict:
+            tmp = origin_coor['lat'], origin_coor['lng']
+            origin_coor = tmp
+            tmp = dest_coor['lat'], dest_coor['lng']
+            dest_coor = tmp
+
         url = "http://maps.googleapis.com/maps/api/distancematrix/json?origins={0}&destinations={1}&mode=driving&language=en-EN&sensor=false".format(str(origin_coor),str(dest_coor))
         print url
         result= simplejson.load(urllib.urlopen(url))
@@ -42,7 +48,7 @@ class MapsAPI:
         return res_dict
 
     def test_get_cost(self):
-        orig_coord = 13.1152648, 77.5774666
+        orig_coord = 13.1152648, 77.5774666 #lat, lng
         dest_coord = 12.924574, 77.670285
         result = self.get_cost_from_coor(orig_coord, dest_coord)
         print result
