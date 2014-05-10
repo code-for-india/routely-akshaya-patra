@@ -58,8 +58,8 @@ def before_request():
 def index():
 
     if not g.user:
-        return render_template('index.html')
-    return render_template('dashboard.html',   [session['user_id'], session['user_id'], 30])
+        return render_template('landing.html')
+    return render_template('dashboard.html', [session['user_id'], session['user_id'], 30])
 
 
 
@@ -68,7 +68,7 @@ def index():
 def login():
     """Logs the user in."""
     if g.user:
-        return redirect(url_for('timeline'))
+        return redirect(url_for('index'))
     error = None
     if request.method == 'POST':
         rv = mongo.db.users.find({"username": request.form['username']})
@@ -81,7 +81,7 @@ def login():
         else:
             flash('You were logged in')
             session['user_id'] = user['user_id']
-            return redirect(url_for('timeline'))
+            return redirect(url_for('index'))
     return render_template('login.html', error=error)
 
 
@@ -89,7 +89,7 @@ def login():
 def register():
     """Registers the user."""
     if g.user:
-        return redirect(url_for('timeline'))
+        return redirect(url_for('index'))
     error = None
     if request.method == 'POST':
         if not request.form['username']:
@@ -117,7 +117,13 @@ def logout():
     """Logs the user out."""
     flash('You were logged out')
     session.pop('user_id', None)
-    return redirect(url_for('public_timeline'))
+    return redirect(url_for('index'))
+
+
+@app.route('/dashboard', methods=['GET', 'POST'])
+def dashboard():
+    """dashboard (testing)."""
+    return render_template('dashboard.html', caravan=[{'code':1,'name':"1"},{'code':2,'name':'2'}])
 
 
 # add some filters to jinja

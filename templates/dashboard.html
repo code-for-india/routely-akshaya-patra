@@ -1,0 +1,74 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+    <!-- Add custom CSS here -->
+    <link href="{{ url_for('static', filename='css/dashboard.css') }}" rel="stylesheet">
+{% endblock %}
+
+
+{% block body %}
+
+      <div class="row row-offcanvas row-offcanvas-left">
+
+        <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
+          <div class="list-group">
+
+            {% for vehicle in caravan %}
+                <a href="#" class="list-group-item" id="vehicle-item" data-vehicle={{vehicle['code']}}>{{vehicle['name']}}</a>
+            <!-- <a href="#" class="list-group-item active">Link</a>
+            <a href="#" class="list-group-item">Link</a>
+            <a href="#" class="list-group-item">Link</a> -->
+            {% endfor %}
+          </div>
+        </div><!--/span-->
+
+        <div class="col-xs-12 col-sm-9">
+          <p class="pull-left visible-xs">
+            <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
+          </p>
+
+          <div id="map" class="map"></div>
+          
+        </div><!--/span-->
+
+        
+      </div><!--/row-->
+
+{% endblock %}
+
+{% block footer %}
+    <script src="{{ url_for('static', filename='js/offcanvas.js') }}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASm3CwaK9qtcZEWYa-iQwHaGi3gcosAJc&sensor=false"></script>
+    <script type="text/javascript">
+            // When the window has finished loading create our google map below
+            google.maps.event.addDomListener(window, 'load', init);
+        
+            function init() {
+                // Basic options for a simple Google Map
+                // For more options see: https://developers.google.com/maps/documentation/javascript/reference#MapOptions
+                var mapOptions = {
+                    // How zoomed in you want the map to start at (always required)
+                    zoom: 12,
+
+                    // The latitude and longitude to center the map (always required)
+                    center: new google.maps.LatLng(13.1072034, 77.597427), // New York
+
+                    // How you would like to style the map. 
+                    // This is where you would paste any style found on Snazzy Maps.
+                    styles: [   {       featureType:"all",      elementType:"all",      stylers:[       {           invert_lightness:true       },      {           saturation:10       },      {           lightness:30        },      {           gamma:0.5       },      {           hue:"#1C705B"       }       ]   }   ]
+                };
+
+                // Get the HTML DOM element that will contain your map 
+                // We are using a div with id="map" seen below in the <body>
+                var mapElement = document.getElementById('map');
+
+                // Create the Google Map using out element and options defined above
+                var map = new google.maps.Map(mapElement, mapOptions);
+
+            }
+
+
+            $('.map').height($('body').height());
+            
+        </script>
+{% endblock %}

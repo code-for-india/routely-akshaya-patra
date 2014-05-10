@@ -1,0 +1,41 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+    <!-- Add custom CSS here -->
+    <link href="{{ url_for('static', filename='css/forms.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<div class="container padding-nav">
+    <div class="col-lg-4 col-sm-2">&nbsp;</div>
+    <div class="col-lg-4 col-sm-8">
+        <form role="form">
+          {% if error %}
+            <p class="bg-danger">{{  error }}</p>
+          {% endif %}
+          <div class="form-group">
+            <label for="exampleInputUsername1">Username</label>
+            <input type="text" class="form-control" id="exampleInputUsername1" name="username" placeholder="Enter username" pattern="[a-zA-Z0-9_]+">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" name="email" placeholder="Enter email">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Enter Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Password">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Confirm Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" name="password2" placeholder="Password">
+          </div>
+          <button type="submit" class="btn btn-primary col-lg-12">Submit</button>
+        </form>
+    </div>
+    <div class="col-lg-4 col-sm-2"></div>
+</div>
+{% endblock %}
+
+{% block footer %}
+&nbsp;
+{% endblock %}
