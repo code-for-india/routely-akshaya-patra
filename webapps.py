@@ -56,10 +56,7 @@ def before_request():
 
 @app.route('/')
 def index():
-    """Shows a users timeline or if no user is logged in it will
-    redirect to the public timeline.  This timeline shows the user's
-    messages as well as all the messages of followed users.
-    """
+
     if not g.user:
         return render_template('index.html')
     return render_template('dashboard.html',   [session['user_id'], session['user_id'], 30])
