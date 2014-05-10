@@ -7,6 +7,5 @@ def add_to_db(start_point , end_point , distance,  time):
 
 
 def get_data(start_point, end_point):
-    db.things.find({"start_point": start_point,"end_point": end_point})
-
+    return list(db.things.find({"start_point": start_point,"end_point": end_point}))
 
