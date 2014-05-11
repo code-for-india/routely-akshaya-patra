@@ -76,12 +76,15 @@ class GetAndStoreCost:
         fh = open('cost.output','Ur')
         count = 0
         for line in fh:
-            print line
-            row_dict = ast.literal_eval(str(line.rstrip()))
+            print 'line', line
+            row_dict = ast.literal_eval(str(line.rstrip('\n')))
             row_dict['_id'] = uuid.uuid4() #adding some count to avoid duplicate key error
-            print row_dict
+            print 'input',row_dict
             self.lat_lng_cost_db.add_to_db(row_dict)
             count += 1
+            print
+            # if count == 10:
+            #     break
 
 
     def compute_costs_thread_pool(self):

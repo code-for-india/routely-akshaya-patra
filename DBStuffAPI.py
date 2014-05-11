@@ -2,7 +2,7 @@ from pymongo import MongoClient
 
 class LngLatDB:
     def __init__(self):
-        self.db = MongoClient().routel
+        self.db = MongoClient().routely
 
     def add_to_db(self, row):
         self.db.lnglat.insert(row)
