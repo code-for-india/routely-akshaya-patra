@@ -25,7 +25,7 @@ class Clustering:
                 rows_corresponding = self.lat_lng_cost_db.get_data(dest_coor)
                 min_cost = 0
                 origin_coor = None
-                if len(self.element_db.get_data(dest_coor)) == 0:
+                if len(self.element_db.get_data_2(dest_coor)) == 0:
                     print 'Computing for destination ',str(dest_coor)
                     for row in rows_corresponding:
                         if origin_coor == None:

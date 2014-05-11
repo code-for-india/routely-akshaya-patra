@@ -50,6 +50,9 @@ class ElementLngLatCostDB:
     def get_data(self,query_dict,pat):
         return list(self.db.element_lng_lat_db.find(query_dict, pat))
 
+    def get_data_2(self, query_dict):
+        return list(self.db.element_lng_lat_db.find(query_dict))
+
     def remove(self):
         self.db.element_lng_lat_db.remove()
         return
