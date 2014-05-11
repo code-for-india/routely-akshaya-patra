@@ -18,7 +18,7 @@ class MapsAPI:
             dest_coor = tmp
 
         #url = "http://maps.googleapis.com/maps/api/distancematrix/json?origins={0}&destinations={1}&mode=driving&language=en-EN&sensor=false".format(str(origin_coor),str(dest_coor))
-        url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins={0}&destinations={1}&mode=driving&language=en-EN&sensor=false&key=AIzaSyBU3xlwGUFuZASWZ9lPqCnHb590yZSrjAM".format(str(origin_coor),str(dest_coor))
+        url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins={0}&destinations={1}&mode=driving&language=en-EN&sensor=false&key=AIzaSyDO6Tf6ZdVsnC5OhPJ_9EULyHCeFwltiQU".format(str(origin_coor),str(dest_coor))
         print url
         result= simplejson.load(urllib.urlopen(url))
         # sample output

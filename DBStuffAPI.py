@@ -13,6 +13,10 @@ class LngLatDB:
     def get_all(self):
         return list(self.db.lnglat.find())
 
+    def remove(self):
+        self.db.lnglat.remove()
+        return
+
 class LngLatCostDB:
     def __init__(self):
         self.db = MongoClient().routely
@@ -29,6 +33,10 @@ class LngLatCostDB:
 
     def get_all(self):
         return list(self.db.lnglatcost.find())
+
+    def remove(self):
+        self.db.lnglatcost.remove()
+        return
 
 
 class ElementLngLatCostDB:

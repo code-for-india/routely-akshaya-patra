@@ -13,6 +13,7 @@ class XlxsToMapsWrapper:
     LAT_LOG_FILE_NAME = './akshaya-patra-data/lon and log details-xls.xlsx'
     def __init__(self):
         self.lat_lng_db = LngLatDB()
+        self.lat_lng_db.remove() #erase it
         pass
 
     def getLatLngData(self, file_name=LAT_LOG_FILE_NAME):
@@ -25,19 +26,20 @@ class GetAndStoreCost:
         self.lat_lng_db = LngLatDB()
         self.lat_lng_cost_db = LngLatCostDB()
         self.maps_request_api = MapsAPI()
+
+        # clear latlngcost database
+        self.lat_lng_cost_db.remove()
         pass
 
     def compute_costs(self):
         fh = open('cost.output','w')
-        #TODO:nikhil - Add the 2nd center path lenghts
         all_rows_list = self.lat_lng_db.get_all()
-        #print all_rows_list[0:4]
         count = 0
         center_count = 0
         res_count_correct = 0
         res_count_incorrect  = 0
-        for center in center_latlng:
-            for row in all_rows_list:
+        for row in all_rows_list:
+            for center in center_latlng:
                 try:
                     _id = row[u'_id']
                     if (u'log' in row) and (u'lon' in row):
@@ -50,23 +52,23 @@ class GetAndStoreCost:
                         cost['dest'] = dest_coor
                         cost['origin'] = center
                         #cost['_id'] = _id
-                        cost['_id'] = str(_id)+str(center_count)
-                        self.lat_lng_cost_db.add_to_db(cost)
+                        cost['_id'] = uuid.uuid4()
+                        #self.lat_lng_cost_db.add_to_db(cost)
                         fh.write(str(cost)+'\n')
                         #print cost
                         import time
                         time.sleep(.25)
                         res_count_correct += 1
                 except:
-                        print 'Got screwed!'
-                        res_count_incorrect += 1
-                print count
-                count += 1
-                #print 'res_count_none', res_count_none, 'res count not done', res_count_not_none
-                # if count == 5:
-                #     break
-                # count += 1
-            center_count += 1
+                    print 'Got screwed!'
+                    res_count_incorrect += 1
+            print count
+            count += 1
+            #print 'res_count_none', res_count_none, 'res count not done', res_count_not_none
+            # if count == 5:
+            #     break
+            count += 1
+        center_count += 1
         fh.close()
         print 'res_count_correct',res_count_correct, 'res count not done', res_count_incorrect
 
@@ -75,8 +77,8 @@ class GetAndStoreCost:
         count = 0
         for line in fh:
             row_dict = ast.literal_eval(line.rstrip())
-            _id = row_dict['_id']
-            row_dict['_id'] = uuid.uuid4() #adding some count to avoid duplicate key error
+            # _id = row_dict['_id']
+            # row_dict['_id'] = uuid.uuid4() #adding some count to avoid duplicate key error
             print row_dict
             self.lat_lng_cost_db.add_to_db(row_dict)
             count += 1
@@ -134,8 +136,8 @@ def main():
     # Compute the cost of all Schools from all centers for clustering
     get_and_store_cost = GetAndStoreCost()
     get_and_store_cost.compute_cost_based_on_saved_text_file()
-    #get_and_store_cost.compute_costs()
-    #get_and_store_cost.compute_costs_thread_pool()
+    # get_and_store_cost.compute_costs()
+    # get_and_store_cost.compute_costs_thread_pool()
 
     # Identify the high level clusters
     clustering = Clustering()

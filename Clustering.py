@@ -61,7 +61,7 @@ class Clustering:
 
 
     def cost_function(self,time, distance):
-        return (int(time)*1.2)+(int(distance)*0.8)
+        return distance
 
 
 
