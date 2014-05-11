@@ -105,7 +105,7 @@ def register():
             error = 'The username is already taken'
         else:
             mongo.db.users.insert(
-                {"username": request.form['username'], "email": request.form['email'],
+                {"user_id" : str(uuid.uuid4()), "username": request.form['username'], "email": request.form['email'],
                  "pw_hash": generate_password_hash(request.form['password'])})
             flash('You were successfully registered and can login now')
             return redirect(url_for('login'))
