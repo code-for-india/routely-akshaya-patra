@@ -84,7 +84,7 @@ class Clustering:
                 lat_lng_1.append(tmp_dict)
 
 
-        print print 'length of lat_lng_list_1', len(lat_lng_1)
+        print 'length of lat_lng_list_1', len(lat_lng_1)
 
     def get_lat_lng_list_2(self,file_name='cluster.output'):
         fh = open(file_name, 'Ur')
