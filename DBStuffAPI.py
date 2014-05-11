@@ -2,7 +2,7 @@ from pymongo import MongoClient
 
 class LngLatDB:
     def __init__(self):
-        self.db = MongoClient().routely
+        self.db = MongoClient().routel
 
     def add_to_db(self, row):
         self.db.lnglat.insert(row)
@@ -47,8 +47,8 @@ class ElementLngLatCostDB:
     def add_to_db(self, row):
         self.db.element_lng_lat_db.insert(row)
 
-    def get_data(self,query_dict):
-        return list(self.db.element_lng_lat_db.find(query_dict))
+    def get_data(self,query_dict,pat):
+        return list(self.db.element_lng_lat_db.find(query_dict, pat))
 
     def remove(self):
         self.db.element_lng_lat_db.remove()

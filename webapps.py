@@ -8,6 +8,8 @@ import uuid
 from werkzeug.utils import secure_filename
 from werkzeug.security import check_password_hash, generate_password_hash
 import os
+from DBStuffAPI import *
+from knn import  *
 
 
 DEBUG = True
@@ -15,9 +17,9 @@ SECRET_KEY = 'development key'
 
 app = Flask(__name__)
 app.config.from_object(__name__)
-app.config.from_envvar('ROUTLEY', silent=True)
+app.config.from_envvar('"routely"', silent=True)
 mongo = PyMongo(app)
-
+data = None
 
 @app.before_request
 def before_request():
@@ -61,6 +63,37 @@ def index():
         return render_template('landing.html')
     return render_template('dashboard.html', [session['user_id'], session['user_id'], 30])
 
+
+@app.route('/data')
+def data_handler():
+
+    # if not g.user:
+    #     return render_template('landing.html')
+    # else:
+    # element_db = ElementLngLatCostDB()
+    # data = element_db.get_data()
+    element_db = ElementLngLatCostDB()
+    if data == None:
+        rv =  element_db.get_data({"origin" : { "lat" : 12.9261416, "lng" : 77.5975514 } }, {"_id": 0, "origin": 0, "cost" : 0 } )
+        lngs_and_lats = []
+        lngs_and_lats_kmeans = []
+        for i in rv:
+            lngs_and_lats.append(i["dest"])
+            lngs_and_lats_kmeans.append([i["dest"]["lat"],i["dest"]["lng"]])
+        sbcluster = SubCluster(lngs_and_lats_kmeans,40)
+
+        result = []
+        for i in range(40):
+            results = sbcluster.get_datapoints(i)
+            result.append([])
+            for r in results:
+                latlng = {"lat" :r[0] , "lng" : r[1] }
+                result[i].append(latlng)
+
+        return json.dumps(result)
+    else:
+
+        return json.dumps(data)
 
 
 
