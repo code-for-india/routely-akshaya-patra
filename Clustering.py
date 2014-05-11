@@ -1,25 +1,22 @@
 __author__ = 'nsonti'
 
+import uuid
+import ast
 from DBStuffAPI import *
+
+center_latlng = [{'lat' : 13.001658, 'lng' : 77.551099}, {'lat' : 12.9261416, 'lng' : 77.5975514}]
 
 class Clustering:
     def __init__(self):
         self.lat_lng_cost_db = LngLatCostDB()
         self.element_db = ElementLngLatCostDB()
+        self.element_db.remove()
         pass
 
     def high_level_clustering(self):
         rows = self.lat_lng_cost_db.get_all()
-        self.element_db.remove()
+        fh = open('cluster.output','w+')
         count = 0
-        # read and all to lat_lng_cost_db
-        # for row in rows:
-        #     store_dict = {}
-        #     if (u'dest' in row) and (u'origin' in row) and (u'time' in row) and (u'distance' in row):
-        #         store_dict[u'dest'] = row[u'dest']
-        #         store_dict[u'origin'] = row[u'origin']
-        #         store_dict[u'time'] = row[u'time']
-        #         store_dict[u'distance'] = row[u'distance']
         for row in rows:
             if (u'dest' in row) and (u'origin' in row) and (u'time' in row) and (u'distance' in row):
                 dest_coor = {}
@@ -53,22 +50,65 @@ class Clustering:
 
                     #end for
                     store = {}
+                    store['_id']=count
                     store.update(origin_coor)
                     store.update(dest_coor)
                     store.update({'cost': int(min_cost)})
-                    self.element_db.add_to_db(store)
+                    fh.write(str(store)+'\n')
+                    #self.element_db.add_to_db(store)
+
+        fh.close()
+        #self.populate_element_db_from_file()
+
+    def populate_element_db_from_file(self,file_name='cluster.output'):
+        self.element_db.remove()
+        fh = open(file_name,'Ur')
+        row = []
+        for line in fh:
+            _cur_row = ast.literal_eval(str(line.rstrip('\n')))
+            row.append(_cur_row)
+            self.element_db.add_to_db(_cur_row)
+
+        fh.close()
 
 
+    def get_lat_lng_list_1(self,file_name='cluster.output'):
+        fh = open(file_name, 'Ur')
+        lat_lng_1 = []
+        for line in fh:
+            cur_row = ast.literal_eval(str(line.rstrip('\n')))
+            if cur_row[u'origin'][u'lat'] == center_latlng[0]['lat'] and cur_row[u'origin'][u'lng'] == center_latlng[0]['lng']:
+                tmp_dict = {}
+                tmp_dict[u'origin'] = cur_row[u'origin']
+                tmp_dict[u'dest'] = cur_row[u'dest']
+                lat_lng_1.append(tmp_dict)
+
+
+        print print 'length of lat_lng_list_1', len(lat_lng_1)
+
+    def get_lat_lng_list_2(self,file_name='cluster.output'):
+        fh = open(file_name, 'Ur')
+        lat_lng_2 = []
+        for line in fh:
+            cur_row = ast.literal_eval(str(line.rstrip('\n')))
+            if cur_row[u'origin'][u'lat'] == center_latlng[1]['lat'] and cur_row[u'origin'][u'lng'] == center_latlng[1]['lng']:
+                tmp_dict = {}
+                tmp_dict[u'origin'] = cur_row[u'origin']
+                tmp_dict[u'dest'] = cur_row[u'dest']
+                lat_lng_2.append(tmp_dict)
+
+        print 'length of lat_lng_list_2', len(lat_lng_2)
 
     def cost_function(self,time, distance):
         return distance
 
 
-
-
 def main():
     clustering = Clustering()
     clustering.high_level_clustering()
+    clustering.get_lat_lng_list_1()
+    clustering.get_lat_lng_list_2()
+
 
 if __name__ == '__main__':
     main()
