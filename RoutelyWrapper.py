@@ -76,9 +76,9 @@ class GetAndStoreCost:
         fh = open('cost.output','Ur')
         count = 0
         for line in fh:
-            row_dict = ast.literal_eval(line.rstrip())
-            # _id = row_dict['_id']
-            # row_dict['_id'] = uuid.uuid4() #adding some count to avoid duplicate key error
+            print line
+            row_dict = ast.literal_eval(str(line.rstrip()))
+            row_dict['_id'] = uuid.uuid4() #adding some count to avoid duplicate key error
             print row_dict
             self.lat_lng_cost_db.add_to_db(row_dict)
             count += 1
