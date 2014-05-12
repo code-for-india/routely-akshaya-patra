@@ -156,7 +156,9 @@ def logout():
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
     """dashboard (testing)."""
-    return render_template('dashboard.html', caravan=[{'code':1,'name':"1"},{'code':2,'name':'2'}])
+    if not g.user:
+        return render_template('login.html')
+    return render_template('dashboard.html', [session['user_id'], session['user_id'], 30])
 
 
 # add some filters to jinja
@@ -164,4 +166,7 @@ app.jinja_env.filters['datetimeformat'] = format_datetime
 app.jinja_env.filters['gravatar'] = gravatar_url
 
 if __name__ == "__main__":
-    app.run()
+    try:
+        app.run(host='0.0.0.0', port=os.environ['PORT'])
+    except:
+        app.run(host='0.0.0.0', port=5000)
