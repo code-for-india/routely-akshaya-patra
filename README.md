@@ -13,8 +13,7 @@ For more details - [Akshaya patra - Delivery and Route optimization doc link](ht
 
 #INSTALLATION
 1. We recommend using `pip` to install python modules. Run `pip install -r <project-directory>/python_requirements.txt`
-2. Install mogodb and gfortran (apt-get on linux or brew on Mac OS X)
-
+2. Install mogodb and gfortran (apt-get on linux or brew on Mac OS X)  
 
 #DEPENDENCIES
 ###Python Modules required
@@ -29,6 +28,9 @@ For more details - [Akshaya patra - Delivery and Route optimization doc link](ht
 - pymongo==2.7
 - simplejson==3.4.1
 - wsgiref==0.1.2
+- numpy==1.8.1
+- scipy==0.14
+- scikit-learn==0.14.1  
 
 ###Other packages
 - gfortran - Fortran 95/2003/2008 compiler for GCC
