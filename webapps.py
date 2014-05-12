@@ -90,7 +90,7 @@ def data_handler():
                 latlng = {"lat" :r[0] , "lng" : r[1] }
                 result[i].append(latlng)
 
-        return json.dumps(result)
+        return json.dumps([result])
     else:
 
         return json.dumps(data)
