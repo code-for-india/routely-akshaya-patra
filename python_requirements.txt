@@ -9,3 +9,6 @@ itsdangerous==0.24
 pymongo==2.7
 simplejson==3.4.1
 wsgiref==0.1.2
+numpy==1.8.1
+scipy==0.14
+scikit-learn==0.14.1
