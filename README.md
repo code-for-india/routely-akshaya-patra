@@ -3,6 +3,13 @@ routely-akshaya-patra
 
 #OVERVIEW
 This is a project for the Code For India Hackathon 2014
+###Problem Statement
+While delivering the best quality meal, Akshaya Patra has to also focus on the most optimal ‘Cost of Meal’. The rising food and manpower costs, the random geographical location of schools and their distances from the kitchen, road connectivity and traffic conditions amplify the problem. The aim is to use data and go beyond finding the shortest distance between each centralized kitchen and school.
+
+###Goal
+Build an application to calculate the most optimized route and incorporate a host of priorities like locating the shortest, most fuel efficient path for our multi-stop route, yet consider traffic and road conditions to positively enhance our delivery schedule and increase efficiency.
+
+For more details - [Akshaya patra - Delivery and Route optimization doc link](https://docs.google.com/document/d/1r5o6pBEBoD581PR_WWJsVokhLJ2aKc166VW4HHhHBDM/edit?usp=sharing)
 
 #INSTALLATION
 1. We recommend using `pip` to install python modules. Run `pip install -r <project-directory>/python_requirements.txt`
