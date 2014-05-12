@@ -61,7 +61,7 @@ def index():
 
     if not g.user:
         return render_template('landing.html')
-    return render_template('dashboard.html', [session['user_id'], session['user_id'], 30])
+    return render_template('dashboard.html', user=g.user)
 
 
 @app.route('/data')
@@ -158,7 +158,7 @@ def dashboard():
     """dashboard (testing)."""
     if not g.user:
         return render_template('login.html')
-    return render_template('dashboard.html', [session['user_id'], session['user_id'], 30])
+    return render_template('dashboard.html', user=g.user)
 
 
 # add some filters to jinja
