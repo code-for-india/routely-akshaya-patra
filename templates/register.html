@@ -9,9 +9,11 @@
 <div class="container padding-nav">
     <div class="col-lg-4 col-sm-2">&nbsp;</div>
     <div class="col-lg-4 col-sm-8">
-        <form role="form">
+        <form role="form" method="POST" action="register">
           {% if error %}
-            <p class="bg-danger">{{  error }}</p>
+            <div class="alert alert-danger">
+              {{error}}
+            </div>
           {% endif %}
           <div class="form-group">
             <label for="exampleInputUsername1">Username</label>
