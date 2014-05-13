@@ -32,6 +32,16 @@ For more details - [Akshaya patra - Delivery and Route optimization doc link](ht
 - scipy==0.14
 - scikit-learn==0.14.1  
 
+
+#Algorithm
+There are three main phases in determining the optimal routes .
+
+1. Grouping the delivery points associated with a kitchen into a region .
+2. Clustering the data points within a region to subclusters using k-means, approximately equal to number of delivery vehicles present.
+3. Using Traveling Salesman Algorithm to find the optimal path within the sub cluster.
+
+
+
 ###Other packages
 - gfortran - Fortran 95/2003/2008 compiler for GCC
 - mongodb - MongoDB (from "humongous") is an open-source document database, and the leading NoSQL database
